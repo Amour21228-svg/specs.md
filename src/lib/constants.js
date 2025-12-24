@@ -1,14 +1,14 @@
 
-// Theme Colors (extracted from specs.md pixel logo)
+// Theme Colors (dark red)
 const THEME_COLORS = {
-    primary: '#C45050',      // Brick red fill
-    secondary: '#D86565',    // Coral red highlight
-    accent: '#EC8080',       // Light coral
+    primary: '#A83232',      // Dark brick red
+    secondary: '#C04545',    // Medium red
+    accent: '#D85858',       // Coral red
     success: '#22c55e',      // Green
     error: '#ef4444',        // Red
     warning: '#f59e0b',      // Amber
     info: '#3b82f6',         // Blue
-    dim: '#2D2D32'           // Dark charcoal outline
+    dim: '#1A1A1A'           // Black shadow
 };
 
 const FLOWS = {
