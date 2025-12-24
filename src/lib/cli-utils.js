@@ -88,7 +88,7 @@ const CLIUtils = {
     console.log(logoGradient(PIXEL_LOGO));
 
     // Tagline with version
-    console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
+    console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + theme.dim('  https://specs.md') + '\n');
   },
 
   /**
@@ -106,7 +106,7 @@ const CLIUtils = {
     console.log(logoGradient(PIXEL_LOGO));
 
     // Tagline with version
-    console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
+    console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + theme.dim('  https://specs.md') + '\n');
   },
 
   /**
@@ -121,7 +121,7 @@ const CLIUtils = {
     const version = this.getVersion();
 
     console.log(logoGradient(PIXEL_LOGO));
-    console.log(theme.dim(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
+    console.log(theme.dim(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + theme.dim('  https://specs.md') + '\n');
   },
 
   /**

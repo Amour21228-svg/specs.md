@@ -8,7 +8,7 @@ const THEME_COLORS = {
     error: '#ef4444',        // Red
     warning: '#f59e0b',      // Amber
     info: '#3b82f6',         // Blue
-    dim: '#1A1A1A'           // Black shadow
+    dim: '#666666'           // Gray shadow (visible on dark/light terminals)
 };
 
 const FLOWS = {
