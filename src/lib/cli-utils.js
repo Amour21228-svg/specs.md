@@ -3,18 +3,8 @@
  */
 
 const chalk = require('chalk');
-const figlet = require('figlet');
 const gradient = require('gradient-string');
 const path = require('path');
-
-// Lazy load oh-my-logo (ESM module) via dynamic import
-let ohMyLogo = null;
-const getOhMyLogo = async () => {
-  if (!ohMyLogo) {
-    ohMyLogo = await import('oh-my-logo');
-  }
-  return ohMyLogo;
-};
 
 const { THEME_COLORS } = require('./constants');
 
@@ -23,6 +13,16 @@ const THEME = THEME_COLORS;
 
 // Create gradient for logo
 const logoGradient = gradient([THEME.primary, THEME.secondary]);
+
+// Pixel-art style logo (brick blocks with 3D effect)
+const PIXEL_LOGO = `
+ ███████╗ ██████╗  ███████╗  ██████╗ ███████╗     ███╗   ███╗ ██████╗
+ ██╔════╝ ██╔══██╗ ██╔════╝ ██╔════╝ ██╔════╝     ████╗ ████║ ██╔══██╗
+ ███████╗ ██████╔╝ █████╗   ██║      ███████╗     ██╔████╔██║ ██║  ██║
+ ╚════██║ ██╔═══╝  ██╔══╝   ██║      ╚════██║     ██║╚██╔╝██║ ██║  ██║
+ ███████║ ██║      ███████╗ ╚██████╗ ███████║ ██╗ ██║ ╚═╝ ██║ ██████╔╝
+ ╚══════╝ ╚═╝      ╚══════╝  ╚═════╝ ╚══════╝ ╚═╝ ╚═╝     ╚═╝ ╚═════╝
+`;
 
 // Theme chalk instances
 const theme = {
@@ -75,8 +75,7 @@ const CLIUtils = {
   },
 
   /**
-   * Display the specs.md logo with gradient ASCII art (lowercase with shadow)
-   * Uses oh-my-logo for beautiful gradient rendering
+   * Display the specs.md logo with ASCII art
    * @param {boolean} clearScreen - Whether to clear screen first
    */
   async displayLogo(clearScreen = true) {
@@ -87,32 +86,14 @@ const CLIUtils = {
     const version = this.getVersion();
 
     console.log('');
-
-    try {
-      // Use oh-my-logo with custom orange palette and Standard font (lowercase)
-      const { render } = await getOhMyLogo();
-      const logo = await render('specs.md', {
-        palette: [THEME.primary, THEME.secondary, '#ffb380'],
-        font: 'Standard',
-        direction: 'horizontal'
-      });
-
-      console.log(logo);
-    } catch (err) {
-      // Fallback to figlet + gradient-string if oh-my-logo fails
-      const figletArt = figlet.textSync('specs.md', {
-        font: 'Standard',
-        horizontalLayout: 'default'
-      });
-      console.log(logoGradient(figletArt));
-    }
+    console.log(logoGradient(PIXEL_LOGO));
 
     // Tagline with version
     console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
   },
 
   /**
-   * Display the specsmd logo synchronously using figlet (fallback)
+   * Display the specsmd logo synchronously with ASCII art
    * @param {boolean} clearScreen - Whether to clear screen first
    */
   displayLogoSync(clearScreen = true) {
@@ -122,21 +103,15 @@ const CLIUtils = {
 
     const version = this.getVersion();
 
-    // Generate ASCII art with figlet
-    const figletArt = figlet.textSync('specs.md', {
-      font: 'Big',
-      horizontalLayout: 'default'
-    });
-
     console.log('');
-    console.log(logoGradient(figletArt));
+    console.log(logoGradient(PIXEL_LOGO));
 
     // Tagline with version
     console.log(theme.primary(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
   },
 
   /**
-   * Display the logo using figlet (alternative style)
+   * Display the logo using pixel-art style (alternative/legacy method name)
    * @param {boolean} clearScreen - Whether to clear screen first
    */
   displayFigletLogo(clearScreen = true) {
@@ -145,12 +120,8 @@ const CLIUtils = {
     }
 
     const version = this.getVersion();
-    const art = figlet.textSync('specs.md', {
-      font: 'Big',
-      horizontalLayout: 'full'
-    });
 
-    console.log(logoGradient(art));
+    console.log(logoGradient(PIXEL_LOGO));
     console.log(theme.dim(' AI-native development orchestration') + theme.primary.bold(` v${version}`) + '\n');
   },
 
