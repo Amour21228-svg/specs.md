@@ -1,8 +1,11 @@
 name: Publish to npm
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Tests"]
     branches: [main]
+    types:
+      - completed
   release:
     types: [published]
   workflow_dispatch:
@@ -20,7 +23,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'chore: bump version')"
+    if: |
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'release') ||
+      (github.event_name == 'workflow_dispatch')
     permissions:
       contents: write
     defaults:
@@ -43,8 +49,8 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts || npm install
 
-      - name: Bump version (push or manual trigger)
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+      - name: Bump version (workflow_run or manual trigger)
+        if: github.event_name == 'workflow_run' || github.event_name == 'workflow_dispatch'
         run: |
           VERSION_TYPE=${{ inputs.version || 'patch' }}
           npm version $VERSION_TYPE --no-git-tag-version
@@ -60,7 +66,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit version bump
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_run' || github.event_name == 'workflow_dispatch'
         run: |
           cd ..
           git config user.name "github-actions[bot]"
